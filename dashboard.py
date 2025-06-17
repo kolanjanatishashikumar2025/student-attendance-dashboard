@@ -14,6 +14,19 @@ absence_df['ReasonAbr'] = absence_df['ReasonAbr'].fillna('Unknown')
 selected_class = st.sidebar.selectbox("Filter by Class", options=["All"] + class_df["Class"].tolist())
 filtered_df = absence_df if selected_class == "All" else absence_df[absence_df["Class"] == selected_class]
 
+#1. Date Range Filter
+#Add a slider or date picker to filter by week/month/term:
+
+min_date = absence_df['Date'].min()
+max_date = absence_df['Date'].max()
+selected_range = st.sidebar.date_input("Date range", [min_date, max_date])
+
+filtered_df = filtered_df[
+    (filtered_df['Date'] >= pd.to_datetime(selected_range[0])) &
+    (filtered_df['Date'] <= pd.to_datetime(selected_range[1]))
+]
+
+
 # Prepare pie chart data
 reason_counts = filtered_df['ReasonAbr'].value_counts().to_dict()
 non_late = filtered_df[filtered_df['ReasonAbr'] != 'Latecoming']['NRIC/FIN/UIN'].nunique()
