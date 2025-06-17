@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load your data
-class_df = pd.read_csv("classwisetotalstudents.csv")
-absence_df = pd.read_csv("studentterm1data.csv")
+class_df = pd.read_csv("classwisetotalstudents.csv",engine='python', on_bad_lines='skip')
+absence_df = pd.read_csv("studentterm1data.csv",engine='python', on_bad_lines='skip')
 
 # Preprocess
 absence_df['Date'] = pd.to_datetime(absence_df['Date'], dayfirst=True, errors='coerce')
